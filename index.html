@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emerald Rogue CustomMonID Workbench</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/lookupTables.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Emerald Rogue CustomMonID Workbench</h1>
+
+<div class="card">
+
+<h2>Pokemon</h2>
+
+<label>Species</label>
+<input id="species" type="text" placeholder="Example: Duskull">
+
+<label>Original Primary Type</label>
+<select id="originalType1"></select>
+
+<label>Original Secondary Type</label>
+<select id="originalType2"></select>
+
+<label>Desired Primary Type</label>
+<select id="newType"></select>
+
+<label>Ability</label>
+<select id="ability"></select>
+
+<label>Extra Move 1</label>
+<select id="move1"></select>
+
+<label>Extra Move 2</label>
+<select id="move2"></select>
+
+</div>
+
+<div class="card">
+
+<h2>Preview</h2>
+
+<p><strong>Result Type:</strong></p>
+<p id="previewType"></p>
+
+<p><strong>Ability:</strong></p>
+<p id="previewAbility"></p>
+
+<p><strong>Moves:</strong></p>
+
+<ul id="previewMoves">
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Encoding (Work in Progress)</h2>
+
+<p>Known Fields:</p>
+
+<pre id="encoding">
+
+????????
+
+pre>
+
+</div>
+
+</div>
+
+</body>
+</html>
