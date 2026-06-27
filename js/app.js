@@ -502,3 +502,88 @@ document
                     : species.primary;
 
     });
+
+/*=========================================================
+ Research
+=========================================================*/
+
+function saveObservation() {
+
+    const observation = new Observation();
+
+    observation.customMonID =
+        document.getElementById("obsCustomMonID")
+            .value
+            .trim()
+            .toUpperCase();
+
+    observation.species =
+        document.getElementById("obsSpecies")
+            .value;
+
+    const species =
+        getSpecies(observation.species);
+
+    if (species) {
+
+        observation.originalType =
+            species.secondary
+                ? [species.primary, species.secondary]
+                : [species.primary];
+
+    }
+
+    const primary =
+        document.getElementById("obsResultPrimary")
+            .value;
+
+    const secondary =
+        document.getElementById("obsResultSecondary")
+            .value;
+
+    observation.resultType = [];
+
+    if (primary !== "")
+        observation.resultType.push(primary);
+
+    if (secondary !== "")
+        observation.resultType.push(secondary);
+
+    observation.ability =
+        document.getElementById("obsAbility")
+            .value;
+
+    observation.moves = [];
+
+    [
+        "obsMove1",
+        "obsMove2",
+        "obsMove3"
+    ].forEach(id => {
+
+        const move =
+            document.getElementById(id).value;
+
+        if (move !== "")
+            observation.moves.push(move);
+
+    });
+
+    observation.notes =
+        document.getElementById("obsNotes")
+            .value;
+
+    ObservationDatabase.add(observation);
+
+    console.log(
+        "Observation saved:",
+        observation
+    );
+
+}
+document
+    .getElementById("saveObservation")
+    .addEventListener(
+        "click",
+        saveObservation
+    );
