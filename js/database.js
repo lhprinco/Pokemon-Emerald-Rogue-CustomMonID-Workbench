@@ -1,4 +1,3 @@
-```javascript
 /*
 ==========================================================
  Emerald Rogue CustomMonID Workbench
@@ -209,4 +208,3 @@ function getSpecies(name){
     return Database.species.find(s=>s.name===name);
 
 }
-```
