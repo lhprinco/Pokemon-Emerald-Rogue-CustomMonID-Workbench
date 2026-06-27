@@ -14,11 +14,28 @@ const ObservationDatabase = {
 
     add(observation) {
 
+        if (!(observation instanceof Observation)) {
+
+            console.error(
+                "Only Observation objects can be added."
+            );
+
+            return;
+
+        }
+
+            if (!observation.validate()) {
+
+            console.error(
+                "Observation failed validation."
+            );
+
+            return;
+
+        }
+
         observation.timestamp =
             new Date().toISOString();
-
-        observation.id =
-            this.observations.length + 1;
 
         this.observations.push(observation);
 
