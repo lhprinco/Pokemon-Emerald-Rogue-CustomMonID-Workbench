@@ -17,7 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (Database.species.length > 0) {
 
-        selectSpecies(Database.species[0].name);
+        
+       document.getElementById("speciesSelect").selectedIndex = 0;
+
+       selectSpecies(
+       Database.species[0].name
+);
+
+
 
     }
 
