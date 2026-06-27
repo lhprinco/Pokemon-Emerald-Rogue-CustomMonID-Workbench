@@ -321,48 +321,93 @@ function updateTypeMoveList() {
 
 function updatePreview() {
 
-    const speciesName =
-        document.getElementById("speciesSelect").value;
-
-    const species =
-        getSpecies(speciesName);
+    const species = getSpecies(
+        document.getElementById("speciesSelect").value
+    );
 
     if (!species)
         return;
-
-    let primary = species.primary;
-    let secondary = species.secondary;
-
-    const replacement =
-        document.getElementById("replacementType").value;
 
     const editedSlot =
         document.querySelector(
             "input[name='editedSlot']:checked"
         ).value;
 
-    if (editedSlot === "primary")
+    const replacement =
+        document.getElementById("replacementType").value;
+
+    let primary = species.primary;
+    let secondary = species.secondary;
+
+    let status = "Confirmed";
+
+    /*
+    ----------------------------------------------------------
+    Primary edit
+    ----------------------------------------------------------
+    */
+
+    if (editedSlot === "primary") {
+
         primary = replacement;
-    else
-        secondary = replacement;
 
-    document.getElementById("previewOriginalPrimary").textContent =
-        species.primary;
+        if (!species.secondary) {
 
-    document.getElementById("previewOriginalSecondary").textContent =
+            secondary = species.primary;
+
+        }
+
+    }
+
+    /*
+    ----------------------------------------------------------
+    Secondary edit
+    ----------------------------------------------------------
+    */
+
+    else {
+
+        if (species.secondary) {
+
+            secondary = replacement;
+
+        }
+
+        else {
+
+            secondary = replacement;
+
+            status =
+                "Experimental (not yet verified)";
+
+        }
+
+    }
+
+    document.getElementById(
+        "previewOriginalPrimary"
+    ).textContent = species.primary;
+
+    document.getElementById(
+        "previewOriginalSecondary"
+    ).textContent =
         species.secondary ?? "—";
 
-    document.getElementById("previewResultPrimary").textContent =
-        primary;
+    document.getElementById(
+        "previewResultPrimary"
+    ).textContent = primary;
 
-    document.getElementById("previewResultSecondary").textContent =
+    document.getElementById(
+        "previewResultSecondary"
+    ).textContent =
         secondary ?? "—";
 
     updateMovePreview();
     updateAbilityPreview();
-    updatePrediction();
+    updatePrediction(status);
 
 }
+
 
 /*=========================================================
  Move Preview
