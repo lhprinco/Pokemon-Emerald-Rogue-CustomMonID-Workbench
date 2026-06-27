@@ -393,26 +393,80 @@ function updateAbilityPreview() {
 }
 
 /*=========================================================
- Encoder Placeholder
+ Encoder v0.2
 =========================================================*/
 
 function updatePrediction() {
 
-    /*
-    This will become the real encoder.
+    const species = getSpecies(
+        document.getElementById("speciesSelect").value
+    );
 
-    For now it simply shows that the UI
-    has updated.
+    if (!species)
+        return;
+
+    const replacementType =
+        document.getElementById("replacementType").value;
+
+    const ability =
+        document.getElementById("ability").value;
+
+    const type =
+        Database.types.find(t => t.name === replacementType);
+
+    /*
+        Type nibble
+
+        This is the mapping we've experimentally verified.
     */
 
-    document.getElementById("prediction").textContent =
-`Encoder v0.1
+    const typeNibble = type ? type.id.toString(16).toUpperCase() : "?";
 
-Species:
-${document.getElementById("speciesSelect").value}
+    /*
+        Ability nibble
 
-Status:
-Not implemented`;
+        Currently only the first 32 abilities are mapped.
+        Unknown abilities display ?? until we finish
+        the second bank.
+    */
+
+    let abilityNibble = "??";
+
+    const abilityIndex =
+        Database.abilities.indexOf(ability);
+
+    if (abilityIndex >= 0) {
+
+        abilityNibble =
+            abilityIndex
+                .toString(16)
+                .toUpperCase()
+                .padStart(2,"0");
+
+    }
+
+    const prediction =
+Encoder v0.2
+
+Type ID:
+${typeNibble}
+
+Ability:
+${abilityNibble}
+
+Current Estimate
+
+C${abilityNibble}20000${typeNibble}
+
+Confidence
+
+★★★★☆
+`;
+
+    document
+        .getElementById("prediction")
+        .textContent = prediction;
 
 }
-```
+
+
