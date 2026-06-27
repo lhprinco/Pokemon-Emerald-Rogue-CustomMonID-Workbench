@@ -502,30 +502,3 @@ document
                     : species.primary;
 
     });
-
-const testObservation = new Observation();
-
-testObservation.customMonID = "C320000C";
-
-testObservation.species = "Duskull";
-
-testObservation.originalType = ["Ghost"];
-
-testObservation.resultType = ["Grass", "Ghost"];
-
-testObservation.ability = "Adaptability";
-
-testObservation.moves = [
-
-    "Leaf Blade",
-
-    "Hydro Steam"
-
-];
-
-ObservationDatabase.add(testObservation);
-
-console.log(
-    ObservationDatabase.all()
-);
-
