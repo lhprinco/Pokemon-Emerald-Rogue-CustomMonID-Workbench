@@ -185,16 +185,41 @@ function filterSpecies() {
         document
             .getElementById("speciesSearch")
             .value
+            .trim()
             .toLowerCase();
 
-    const select = document.getElementById("speciesSelect");
+    const select =
+        document.getElementById("speciesSelect");
 
-    Array.from(select.options).forEach(option => {
+    select.innerHTML = "";
 
-        option.hidden =
-            !option.textContent.toLowerCase().includes(filter);
+    const matches =
+        Database.species.filter(species =>
+            species.name
+                .toLowerCase()
+                .includes(filter)
+        );
+
+    matches.forEach(species => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = species.name;
+        option.textContent =
+            `#${species.dex} ${species.name}`;
+
+        select.appendChild(option);
 
     });
+
+    if (matches.length > 0) {
+
+        select.selectedIndex = 0;
+
+        selectSpecies(matches[0].name);
+
+    }
 
 }
 
