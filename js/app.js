@@ -1,4 +1,3 @@
-```javascript
 /*
 ==========================================================
  Emerald Rogue CustomMonID Workbench
