@@ -5,6 +5,32 @@
 ==========================================================
 */
 
+/*
+==========================================================
+Reverse Engineering Knowledge Base
+
+These flags describe what has been experimentally verified.
+==========================================================
+*/
+
+const ReverseEngineeringState = {
+
+    primaryEditMonotype: "confirmed",
+
+    secondaryEditMonotype: "unknown",
+
+    primaryEditDualtype: "confirmed",
+
+    secondaryEditDualtype: "suspected",
+
+    typeMoveVariant: "confirmed",
+
+    independentTypeMove: "partial",
+
+    extraMoveEncoding: "partial"
+
+};
+
 document.addEventListener("DOMContentLoaded", () => {
 
     populateSpecies();
