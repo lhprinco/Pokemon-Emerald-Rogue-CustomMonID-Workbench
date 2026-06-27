@@ -33,10 +33,23 @@ const ReverseEngineeringState = {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    populateSpecies();
-    populateTypes();
-    populateAbilities();
-    populateMoves();
+    FormBinder.populateSpecies("speciesSelect");
+    FormBinder.populateSpecies("obsSpecies");
+
+    FormBinder.populateTypes("replacementType");
+    FormBinder.populateTypes("obsResultPrimary");
+    FormBinder.populateTypes("obsResultSecondary");
+
+    FormBinder.populateAbilities("ability");
+    FormBinder.populateAbilities("obsAbility");
+
+    FormBinder.populateMoves("typeMove");
+    FormBinder.populateMoves("extraMove1");
+    FormBinder.populateMoves("extraMove2");
+
+    FormBinder.populateMoves("obsMove1");
+    FormBinder.populateMoves("obsMove2");
+    FormBinder.populateMoves("obsMove3");
 
     registerEvents();
 
@@ -468,5 +481,24 @@ document
                 .classList.add("active");
 
         });
+
+    });
+
+document
+    .getElementById("obsSpecies")
+    .addEventListener("change", e => {
+
+        const species =
+            getSpecies(e.target.value);
+
+        if (!species)
+            return;
+
+        document
+            .getElementById("obsOriginalType")
+            .textContent =
+                species.secondary
+                    ? `${species.primary} / ${species.secondary}`
+                    : species.primary;
 
     });
