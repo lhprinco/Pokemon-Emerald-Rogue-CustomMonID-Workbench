@@ -466,78 +466,54 @@ function updateAbilityPreview() {
  Encoder v0.2
 =========================================================*/
 
-function updatePrediction(status) {
+function updatePrediction(status = "Confirmed") {
 
-    let confidence = 0;
+    const selection = {
 
-    /*
-    Type editing
-    */
+        species:
+            document.getElementById("speciesSelect").value,
 
-    confidence += 2;
+        type:
+            document.getElementById("replacementType").value,
 
-    /*
-    Ability encoding
-    */
+        ability:
+            document.getElementById("ability").value,
 
-    confidence += 2;
+        typeMove:
+            document.getElementById("typeMove").value,
 
-    /*
-    Type move
-    */
+        move1:
+            document.getElementById("extraMove1").value,
 
-    confidence += 1;
+        move2:
+            document.getElementById("extraMove2").value,
 
-    /*
-    Extra move encoding is still incomplete.
-    */
+        editedSlot:
+            document.querySelector(
+                "input[name='editedSlot']:checked"
+            ).value
+
+    };
+
+    const encoder =
+        new CustomMonEncoder(selection);
+
+    const result =
+        encoder.encode();
+
+    let confidence = 5;
 
     let bar =
         "█".repeat(confidence) +
         "░".repeat(10 - confidence);
 
-    const replacementType =
-        document.getElementById(
-            "replacementType"
-        ).value;
+    document.getElementById("prediction").textContent =
 
-    const type =
-        Database.types.find(
-            t => t.name === replacementType
-        );
+`Encoder v0.3
 
-    const typeNibble =
-        type
-            ? type.id.toString(16).toUpperCase()
-            : "?";
+Estimated CustomMonID
 
-    const ability =
-        document.getElementById("ability").value;
-
-    const abilityIndex =
-        Database.abilities.indexOf(ability);
-
-    let abilityNibble = "??";
-
-    if (abilityIndex >= 0) {
-
-        abilityNibble =
-            abilityIndex
-                .toString(16)
-                .toUpperCase()
-                .padStart(2,"0");
-
-    }
-
-    document.getElementById(
-        "prediction"
-    ).textContent =
-
-`Encoder v0.2
-
-Current Estimate
-
-C${abilityNibble}20000${typeNibble}
+${result.estimate}
 
 Prediction Status
 
@@ -550,14 +526,13 @@ ${bar}
 ${confidence}/10
 
 Solved
-✓ Type editing
+✓ Type encoding
 ✓ Ability encoding
 
-Partially solved
-◐ Type move variant
+Partial
+◐ Type move selection
 
 Unknown
-✗ Extra move encoding
-✗ Final bit layout`;
+✗ Extra move bit layout
+✗ Final bit packing`;
 }
-
