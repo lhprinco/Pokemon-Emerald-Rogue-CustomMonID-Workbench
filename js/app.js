@@ -29,20 +29,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function populateSpecies() {
 
-    const select = document.getElementById("speciesSelect");
+    const select =
+        document.getElementById("speciesSelect");
 
     select.innerHTML = "";
 
-    Database.species.forEach(species => {
+    Database.species
+        .sort((a,b)=>a.name.localeCompare(b.name))
+        .forEach(species => {
 
-        const option = document.createElement("option");
+            const option =
+                document.createElement("option");
 
-        option.value = species.name;
-        option.textContent = `#${species.dex} ${species.name}`;
+            option.value = species.name;
+            option.textContent =
+                `#${species.dex} ${species.name}`;
 
-        select.appendChild(option);
+            select.appendChild(option);
 
-    });
+        });
 
 }
 
