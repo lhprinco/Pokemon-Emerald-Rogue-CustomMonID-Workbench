@@ -1,60 +1,295 @@
+```css
+/* ==========================================================
+   Emerald Rogue CustomMonID Workbench
+   style.css
+   ========================================================== */
+
+*{
+    box-sizing:border-box;
+}
+
 body{
 
-    background:#1e1e1e;
-    color:white;
-
-    font-family:Arial,Helvetica,sans-serif;
-
     margin:0;
+
+    background:#202124;
+
+    color:#ECECEC;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
 }
 
 .container{
 
-    max-width:900px;
+    width:min(1400px,95vw);
 
-    margin:auto;
+    margin:30px auto;
 
-    padding:20px;
 }
+
+header{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+header h1{
+
+    margin:0;
+
+    font-size:2rem;
+
+}
+
+header p{
+
+    color:#AAAAAA;
+
+    margin-top:8px;
+
+}
+
+/* ========================================================== */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:25px;
+
+}
+
+/* ========================================================== */
 
 .card{
 
-    background:#2d2d2d;
+    background:#2B2D31;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    padding:20px;
+    padding:24px;
 
-    margin-bottom:20px;
+    box-shadow:
+        0 0 15px rgba(0,0,0,.35);
+
 }
 
-h1{
+/* ========================================================== */
 
-    text-align:center;
+h2{
+
+    margin-top:0;
+
+    border-bottom:1px solid #444;
+
+    padding-bottom:8px;
+
 }
+
+/* ========================================================== */
 
 label{
 
     display:block;
 
-    margin-top:15px;
+    margin-top:14px;
 
-    margin-bottom:5px;
+    margin-bottom:6px;
+
+    font-weight:600;
+
 }
 
-select,
-input{
+input[type=text],
+select{
 
     width:100%;
 
+    padding:9px;
+
+    border:none;
+
+    border-radius:6px;
+
+    background:#404349;
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+input[type=text]:focus,
+select:focus{
+
+    outline:2px solid #66A3FF;
+
+}
+
+/* ========================================================== */
+
+#speciesSelect{
+
+    margin-top:8px;
+
+    height:220px;
+
+}
+
+/* ========================================================== */
+
+.checkbox{
+
+    margin-top:18px;
+
+}
+
+.checkbox input{
+
+    margin-right:8px;
+
+}
+
+/* ========================================================== */
+
+.readonlyRow{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:10px 0;
+
     padding:8px;
 
-    font-size:16px;
+    border-radius:6px;
+
+    background:#3A3D42;
+
 }
+
+.readonlyRow span{
+
+    font-weight:bold;
+
+    color:#8FD4FF;
+
+}
+
+/* ========================================================== */
+
+hr{
+
+    border:none;
+
+    border-top:1px solid #444;
+
+    margin:24px 0;
+
+}
+
+/* ========================================================== */
+
+.previewTable{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.previewTable th{
+
+    text-align:center;
+
+    background:#3A3D42;
+
+}
+
+.previewTable td,
+.previewTable th{
+
+    padding:10px;
+
+    border:1px solid #555;
+
+}
+
+/* ========================================================== */
+
+.statusTable{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.statusTable td{
+
+    border:1px solid #555;
+
+    padding:8px;
+
+}
+
+.statusTable td:last-child{
+
+    text-align:center;
+
+    font-weight:bold;
+
+}
+
+/* ========================================================== */
+
+#previewMoves{
+
+    padding-left:22px;
+
+}
+
+#previewMoves li{
+
+    margin-bottom:6px;
+
+}
+
+/* ========================================================== */
 
 pre{
 
-    background:black;
+    background:#111;
 
-    padding:15px;
+    color:#77FF77;
+
+    padding:16px;
+
+    border-radius:8px;
+
+    overflow:auto;
+
+    font-size:18px;
+
 }
+
+/* ========================================================== */
+
+@media(max-width:1000px){
+
+    .grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+```
