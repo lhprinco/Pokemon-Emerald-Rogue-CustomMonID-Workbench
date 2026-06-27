@@ -536,3 +536,33 @@ Unknown
 ✗ Extra move bit layout
 ✗ Final bit packing`;
 }
+
+document
+    .querySelectorAll(".tabButton")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            document
+                .querySelectorAll(".tabButton")
+                .forEach(b =>
+                    b.classList.remove("active")
+                );
+
+            document
+                .querySelectorAll(".tabPage")
+                .forEach(p =>
+                    p.classList.remove("active")
+                );
+
+            button.classList.add("active");
+
+            document
+                .getElementById(
+                    button.dataset.tab + "Tab"
+                )
+                .classList.add("active");
+
+        });
+
+    });
