@@ -466,44 +466,58 @@ function updateAbilityPreview() {
  Encoder v0.2
 =========================================================*/
 
-function updatePrediction() {
+function updatePrediction(status) {
 
-    const species = getSpecies(
-        document.getElementById("speciesSelect").value
-    );
+    let confidence = 0;
 
-    if (!species)
-        return;
+    /*
+    Type editing
+    */
+
+    confidence += 2;
+
+    /*
+    Ability encoding
+    */
+
+    confidence += 2;
+
+    /*
+    Type move
+    */
+
+    confidence += 1;
+
+    /*
+    Extra move encoding is still incomplete.
+    */
+
+    let bar =
+        "█".repeat(confidence) +
+        "░".repeat(10 - confidence);
 
     const replacementType =
-        document.getElementById("replacementType").value;
+        document.getElementById(
+            "replacementType"
+        ).value;
+
+    const type =
+        Database.types.find(
+            t => t.name === replacementType
+        );
+
+    const typeNibble =
+        type
+            ? type.id.toString(16).toUpperCase()
+            : "?";
 
     const ability =
         document.getElementById("ability").value;
 
-    const type =
-        Database.types.find(t => t.name === replacementType);
-
-    /*
-        Type nibble
-
-        This is the mapping we've experimentally verified.
-    */
-
-    const typeNibble = type ? type.id.toString(16).toUpperCase() : "?";
-
-    /*
-        Ability nibble
-
-        Currently only the first 32 abilities are mapped.
-        Unknown abilities display ?? until we finish
-        the second bank.
-    */
-
-    let abilityNibble = "??";
-
     const abilityIndex =
         Database.abilities.indexOf(ability);
+
+    let abilityNibble = "??";
 
     if (abilityIndex >= 0) {
 
@@ -515,28 +529,35 @@ function updatePrediction() {
 
     }
 
-    const prediction =
-Encoder v0.2
+    document.getElementById(
+        "prediction"
+    ).textContent =
 
-Type ID:
-${typeNibble}
-
-Ability:
-${abilityNibble}
+`Encoder v0.2
 
 Current Estimate
 
 C${abilityNibble}20000${typeNibble}
 
-Confidence
+Prediction Status
 
-★★★★☆
-`;
+${status}
 
-    document
-        .getElementById("prediction")
-        .textContent = prediction;
+Knowledge
 
+${bar}
+
+${confidence}/10
+
+Solved
+✓ Type editing
+✓ Ability encoding
+
+Partially solved
+◐ Type move variant
+
+Unknown
+✗ Extra move encoding
+✗ Final bit layout`;
 }
-
 
