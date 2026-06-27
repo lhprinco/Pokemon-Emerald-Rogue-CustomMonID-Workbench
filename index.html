@@ -1,82 +1,319 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Emerald Rogue CustomMonID Workbench</title>
 
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="js/lookupTables.js"></script>
+    <script src="js/database.js"></script>
     <script src="js/app.js" defer></script>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Emerald Rogue CustomMonID Workbench</h1>
+    <header>
 
-<div class="card">
+        <h1>Emerald Rogue CustomMonID Workbench</h1>
 
-<h2>Pokemon</h2>
+        <p>
+            Reverse engineering tool for Emerald Rogue CustomMonIDs
+        </p>
 
-<label>Species</label>
-<input id="species" type="text" placeholder="Example: Duskull">
+    </header>
 
-<label>Original Primary Type</label>
-<select id="originalType1"></select>
 
-<label>Original Secondary Type</label>
-<select id="originalType2"></select>
+    <div class="grid">
 
-<label>Desired Primary Type</label>
-<select id="newType"></select>
+        <!-- ===================================================== -->
+        <!-- LEFT PANEL                                             -->
+        <!-- ===================================================== -->
 
-<label>Ability</label>
-<select id="ability"></select>
+        <section class="card">
 
-<label>Extra Move 1</label>
-<select id="move1"></select>
+            <h2>Species</h2>
 
-<label>Extra Move 2</label>
-<select id="move2"></select>
+            <label for="speciesSearch">
 
-</div>
+                Search Species
 
-<div class="card">
+            </label>
 
-<h2>Preview</h2>
+            <input
+                id="speciesSearch"
+                type="text"
+                placeholder="Start typing..."
+                autocomplete="off">
 
-<p><strong>Result Type:</strong></p>
-<p id="previewType"></p>
+            <select id="speciesSelect" size="10"></select>
 
-<p><strong>Ability:</strong></p>
-<p id="previewAbility"></p>
+            <hr>
 
-<p><strong>Moves:</strong></p>
+            <h2>Original Typing</h2>
 
-<ul id="previewMoves">
+            <div class="readonlyRow">
 
-</ul>
+                <label>Primary</label>
 
-</div>
+                <span id="originalPrimary">
+                    —
+                </span>
 
-<div class="card">
+            </div>
 
-<h2>Encoding (Work in Progress)</h2>
+            <div class="readonlyRow">
 
-<p>Known Fields:</p>
+                <label>Secondary</label>
 
-<pre id="encoding">
+                <span id="originalSecondary">
+                    —
+                </span>
+
+            </div>
+
+            <hr>
+
+            <h2>Edit</h2>
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="editedSlot"
+                    value="primary"
+                    checked>
+
+                Primary Type
+
+            </label>
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="editedSlot"
+                    value="secondary">
+
+                Secondary Type
+
+            </label>
+
+            <hr>
+
+            <h2>Replacement Type</h2>
+
+            <select id="replacementType"></select>
+
+            <label class="checkbox">
+
+                <input
+                    type="checkbox"
+                    id="automaticTypeMove"
+                    checked>
+
+                Automatically select type move
+
+            </label>
+
+            <label>
+
+                Variant
+
+            </label>
+
+            <select id="typeVariant">
+
+                <option value="0">
+
+                    Variant A
+
+                </option>
+
+                <option value="1">
+
+                    Variant B
+
+                </option>
+
+            </select>
+
+            <label>
+
+                Type Move
+
+            </label>
+
+            <select id="typeMove"></select>
+
+            <hr>
+
+            <h2>Ability</h2>
+
+            <select id="ability"></select>
+
+            <hr>
+
+            <h2>Extra Move 1</h2>
+
+            <select id="extraMove1"></select>
+
+            <h2>Extra Move 2</h2>
+
+            <select id="extraMove2"></select>
+
+        </section>
+
+
+
+        <!-- ===================================================== -->
+        <!-- RIGHT PANEL                                            -->
+        <!-- ===================================================== -->
+
+        <section class="card">
+
+            <h2>Preview</h2>
+
+            <table class="previewTable">
+
+                <tr>
+
+                    <th></th>
+
+                    <th>Original</th>
+
+                    <th>Result</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>Primary</td>
+
+                    <td id="previewOriginalPrimary">—</td>
+
+                    <td id="previewResultPrimary">—</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Secondary</td>
+
+                    <td id="previewOriginalSecondary">—</td>
+
+                    <td id="previewResultSecondary">—</td>
+
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h2>Moves</h2>
+
+            <ol id="previewMoves">
+
+            </ol>
+
+            <hr>
+
+            <h2>Ability</h2>
+
+            <p id="previewAbility">
+
+                —
+
+            </p>
+
+            <hr>
+
+            <h2>Predicted CustomMonID</h2>
+
+            <pre id="prediction">
 
 ????????
 
-pre>
+            </pre>
 
-</div>
+            <hr>
+
+            <h2>Decoder Status</h2>
+
+            <table class="statusTable">
+
+                <tr>
+
+                    <td>Species</td>
+
+                    <td>✔</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Typing</td>
+
+                    <td>✔</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Ability</td>
+
+                    <td>✔</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Type Move</td>
+
+                    <td>◐</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Extra Move 1</td>
+
+                    <td>◐</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Extra Move 2</td>
+
+                    <td>◐</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Bit Layout</td>
+
+                    <td>◐</td>
+
+                </tr>
+
+            </table>
+
+        </section>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>
+```
