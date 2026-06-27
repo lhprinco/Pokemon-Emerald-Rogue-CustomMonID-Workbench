@@ -1,14 +1,44 @@
-function fillDropdown(id,list){
+```javascript
+/*
+==========================================================
+ Emerald Rogue CustomMonID Workbench
+ app.js
+==========================================================
+*/
 
-    const select=document.getElementById(id);
+document.addEventListener("DOMContentLoaded", () => {
 
-    list.forEach(item=>{
+    populateSpecies();
+    populateTypes();
+    populateAbilities();
+    populateMoves();
 
-        const option=document.createElement("option");
+    registerEvents();
 
-        option.text=item;
+    if (Database.species.length > 0) {
 
-        option.value=item;
+        selectSpecies(Database.species[0].name);
+
+    }
+
+});
+
+/*=========================================================
+ Populate UI
+=========================================================*/
+
+function populateSpecies() {
+
+    const select = document.getElementById("speciesSelect");
+
+    select.innerHTML = "";
+
+    Database.species.forEach(species => {
+
+        const option = document.createElement("option");
+
+        option.value = species.name;
+        option.textContent = `#${species.dex} ${species.name}`;
 
         select.appendChild(option);
 
@@ -16,68 +46,336 @@ function fillDropdown(id,list){
 
 }
 
-function updatePreview(){
+function populateTypes() {
 
-    const original1=document.getElementById("originalType1").value;
+    const replacement = document.getElementById("replacementType");
 
-    const original2=document.getElementById("originalType2").value;
+    replacement.innerHTML = "";
 
-    const newType=document.getElementById("newType").value;
+    Database.types.forEach(type => {
 
-    const ability=document.getElementById("ability").value;
+        const option = document.createElement("option");
 
-    const move1=document.getElementById("move1").value;
+        option.value = type.name;
+        option.textContent = type.name;
 
-    const move2=document.getElementById("move2").value;
+        replacement.appendChild(option);
 
-    document.getElementById("previewType").textContent=
+    });
 
-        newType+" / "+original2;
+    updateTypeMoveList();
 
-    document.getElementById("previewAbility").textContent=
+}
 
-        ability;
+function populateAbilities() {
 
-    const list=document.getElementById("previewMoves");
+    const select = document.getElementById("ability");
 
-    list.innerHTML="";
+    select.innerHTML = "";
 
-    [move1,move2].forEach(move=>{
+    Database.abilities.forEach(ability => {
 
-        if(move!="None"){
+        const option = document.createElement("option");
 
-            const li=document.createElement("li");
+        option.value = ability;
+        option.textContent = ability;
 
-            li.textContent=move;
-
-            list.appendChild(li);
-
-        }
+        select.appendChild(option);
 
     });
 
 }
 
-window.onload=()=>{
+function populateMoves() {
 
-    fillDropdown("originalType1",TYPES);
+    const moveSelectors = [
 
-    fillDropdown("originalType2",TYPES);
+        document.getElementById("extraMove1"),
+        document.getElementById("extraMove2")
 
-    fillDropdown("newType",TYPES);
+    ];
 
-    fillDropdown("ability",ABILITIES);
+    moveSelectors.forEach(select => {
 
-    fillDropdown("move1",MOVES);
+        select.innerHTML = "";
 
-    fillDropdown("move2",MOVES);
+        Database.moves.forEach(move => {
 
-    document.querySelectorAll("select").forEach(s=>{
+            const option = document.createElement("option");
 
-        s.onchange=updatePreview;
+            option.value = move;
+            option.textContent = move;
+
+            select.appendChild(option);
+
+        });
 
     });
+
+}
+
+/*=========================================================
+ Event Registration
+=========================================================*/
+
+function registerEvents() {
+
+    document.getElementById("speciesSearch")
+        .addEventListener("input", filterSpecies);
+
+    document.getElementById("speciesSelect")
+        .addEventListener("change", event => {
+
+            selectSpecies(event.target.value);
+
+        });
+
+    document.getElementById("replacementType")
+        .addEventListener("change", () => {
+
+            updateTypeMoveList();
+            updatePreview();
+
+        });
+
+    document.getElementById("typeVariant")
+        .addEventListener("change", () => {
+
+            updateTypeMoveList();
+            updatePreview();
+
+        });
+
+    document.getElementById("automaticTypeMove")
+        .addEventListener("change", () => {
+
+            updateTypeMoveList();
+
+        });
+
+    document.getElementById("typeMove")
+        .addEventListener("change", updatePreview);
+
+    document.getElementById("ability")
+        .addEventListener("change", updatePreview);
+
+    document.getElementById("extraMove1")
+        .addEventListener("change", updatePreview);
+
+    document.getElementById("extraMove2")
+        .addEventListener("change", updatePreview);
+
+    document
+        .querySelectorAll("input[name='editedSlot']")
+        .forEach(radio => {
+
+            radio.addEventListener("change", updatePreview);
+
+        });
+
+}
+
+/*=========================================================
+ Species
+=========================================================*/
+
+function filterSpecies() {
+
+    const filter =
+        document
+            .getElementById("speciesSearch")
+            .value
+            .toLowerCase();
+
+    const select = document.getElementById("speciesSelect");
+
+    Array.from(select.options).forEach(option => {
+
+        option.hidden =
+            !option.textContent.toLowerCase().includes(filter);
+
+    });
+
+}
+
+function selectSpecies(name) {
+
+    const species = getSpecies(name);
+
+    if (!species)
+        return;
+
+    document.getElementById("originalPrimary").textContent =
+        species.primary;
+
+    document.getElementById("originalSecondary").textContent =
+        species.secondary ?? "—";
 
     updatePreview();
 
 }
+
+/*=========================================================
+ Type Move
+=========================================================*/
+
+function updateTypeMoveList() {
+
+    const typeName =
+        document.getElementById("replacementType").value;
+
+    const type = getType(typeName);
+
+    const select =
+        document.getElementById("typeMove");
+
+    const automatic =
+        document.getElementById("automaticTypeMove").checked;
+
+    const variant =
+        document.getElementById("typeVariant").value;
+
+    select.innerHTML = "";
+
+    const option =
+        document.createElement("option");
+
+    if (variant === "0")
+        option.textContent = type.variantA;
+    else
+        option.textContent = type.variantB;
+
+    option.value = option.textContent;
+
+    select.appendChild(option);
+
+    select.disabled = automatic;
+
+}
+
+/*=========================================================
+ Preview
+=========================================================*/
+
+function updatePreview() {
+
+    const speciesName =
+        document.getElementById("speciesSelect").value;
+
+    const species =
+        getSpecies(speciesName);
+
+    if (!species)
+        return;
+
+    let primary = species.primary;
+    let secondary = species.secondary;
+
+    const replacement =
+        document.getElementById("replacementType").value;
+
+    const editedSlot =
+        document.querySelector(
+            "input[name='editedSlot']:checked"
+        ).value;
+
+    if (editedSlot === "primary")
+        primary = replacement;
+    else
+        secondary = replacement;
+
+    document.getElementById("previewOriginalPrimary").textContent =
+        species.primary;
+
+    document.getElementById("previewOriginalSecondary").textContent =
+        species.secondary ?? "—";
+
+    document.getElementById("previewResultPrimary").textContent =
+        primary;
+
+    document.getElementById("previewResultSecondary").textContent =
+        secondary ?? "—";
+
+    updateMovePreview();
+    updateAbilityPreview();
+    updatePrediction();
+
+}
+
+/*=========================================================
+ Move Preview
+=========================================================*/
+
+function updateMovePreview() {
+
+    const list =
+        document.getElementById("previewMoves");
+
+    list.innerHTML = "";
+
+    const moves = [];
+
+    moves.push(
+        document.getElementById("typeMove").value
+    );
+
+    const move1 =
+        document.getElementById("extraMove1").value;
+
+    const move2 =
+        document.getElementById("extraMove2").value;
+
+    if (move1 !== "None")
+        moves.push(move1);
+
+    if (move2 !== "None")
+        moves.push(move2);
+
+    moves.forEach(move => {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent = move;
+
+        list.appendChild(li);
+
+    });
+
+}
+
+/*=========================================================
+ Ability Preview
+=========================================================*/
+
+function updateAbilityPreview() {
+
+    document.getElementById("previewAbility").textContent =
+        document.getElementById("ability").value;
+
+}
+
+/*=========================================================
+ Encoder Placeholder
+=========================================================*/
+
+function updatePrediction() {
+
+    /*
+    This will become the real encoder.
+
+    For now it simply shows that the UI
+    has updated.
+    */
+
+    document.getElementById("prediction").textContent =
+`Encoder v0.1
+
+Species:
+${document.getElementById("speciesSelect").value}
+
+Status:
+Not implemented`;
+
+}
+```
