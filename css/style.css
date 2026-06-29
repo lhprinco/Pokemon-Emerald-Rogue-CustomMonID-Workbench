@@ -355,3 +355,45 @@ pre{
     gap: 6px;
 
 }
+
+/*=========================================================
+Observation History
+=========================================================*/
+
+#observationHistory{
+
+    margin-top:20px;
+
+}
+
+.observationCard{
+
+    border:1px solid #666;
+
+    border-radius:8px;
+
+    padding:12px;
+
+    margin-bottom:12px;
+
+    background:#fafafa;
+
+}
+
+.observationCard h3{
+
+    margin:0 0 8px 0;
+
+}
+
+.observationCard p{
+
+    margin:4px 0;
+
+}
+
+.deleteObservation{
+
+    margin-top:10px;
+
+}
