@@ -14,25 +14,11 @@ const ObservationDatabase = {
 
     add(observation) {
 
-        if (!(observation instanceof Observation)) {
-
-            console.error(
-                "Only Observation objects can be added."
-            );
-
+        if (!(observation instanceof Observation))
             return;
 
-        }
-
-            if (!observation.validate()) {
-
-            console.error(
-                "Observation failed validation."
-            );
-
+        if (!observation.validate())
             return;
-
-        }
 
         observation.timestamp =
             new Date().toISOString();
@@ -60,6 +46,57 @@ const ObservationDatabase = {
             null,
             4
         );
+
+    },
+
+    download() {
+
+        const blob =
+            new Blob(
+                [this.export()],
+                {
+                    type:
+                    "application/json"
+                }
+            );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "observations.json";
+
+        a.click();
+
+        URL.revokeObjectURL(url);
+
+    },
+
+    import(jsonText) {
+
+        const data =
+            JSON.parse(jsonText);
+
+        this.clear();
+
+        data.forEach(entry => {
+
+            const obs =
+                new Observation();
+
+            Object.assign(
+                obs,
+                entry
+            );
+
+            this.add(obs);
+
+        });
 
     }
 
