@@ -100,4 +100,76 @@ const ObservationDatabase = {
 
     }
 
+    render(){
+
+    const container =
+        document.getElementById(
+            "observationHistory"
+        );
+
+    const count =
+        document.getElementById(
+            "observationCount"
+        );
+
+    if(!container)
+        return;
+
+    container.innerHTML="";
+
+    count.textContent =
+        this.observations.length;
+
+    this.observations.forEach(
+        (obs,index)=>{
+
+            const card =
+                document.createElement("div");
+
+            card.className=
+                "observationCard";
+
+            card.innerHTML=`
+
+<h3>REC ${index+1}</h3>
+
+<p><strong>ID:</strong> ${obs.customMonID}</p>
+
+<p><strong>Species:</strong> ${obs.species}</p>
+
+<p><strong>Ability:</strong> ${obs.ability}</p>
+
+<p><strong>Original:</strong>
+${obs.originalType.join(" / ")}</p>
+
+<p><strong>Result:</strong>
+${obs.resultType.join(" / ")}</p>
+
+<p><strong>Moves:</strong></p>
+
+<ol>
+
+${obs.moves.map(
+m=>`<li>${m}</li>`
+).join("")}
+
+</ol>
+
+<button
+class="deleteObservation"
+
+data-index="${index}">
+
+Delete
+
+</button>
+
+`;
+
+            container.appendChild(card);
+
+        });
+
+}
+    
 };
