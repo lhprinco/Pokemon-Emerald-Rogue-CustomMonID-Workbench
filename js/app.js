@@ -664,3 +664,37 @@ document
 
         }
     );
+
+/*
+==========================================================
+Delete Observation
+==========================================================
+*/
+
+document.addEventListener(
+
+    "click",
+
+    event=>{
+
+        if(
+            !event.target.classList.contains(
+                "deleteObservation"
+            )
+        )
+            return;
+
+        const index=
+            Number(
+                event.target.dataset.index
+            );
+
+        ObservationDatabase
+            .observations
+            .splice(index,1);
+
+        ObservationDatabase.render();
+
+    }
+
+);
