@@ -587,3 +587,80 @@ document
         "click",
         saveObservation
     );
+
+/*
+==========================================================
+Observation Export
+==========================================================
+*/
+
+document
+    .getElementById("exportObservations")
+    .addEventListener(
+        "click",
+        () => {
+
+            ObservationDatabase.download();
+
+        }
+    );
+
+/*
+==========================================================
+Observation Import
+==========================================================
+*/
+
+document
+    .getElementById("importObservations")
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById("importFile")
+                .click();
+
+        }
+    );
+
+document
+    .getElementById("importFile")
+    .addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+            if (!file)
+                return;
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                e => {
+
+                    ObservationDatabase.import(
+                        e.target.result
+                    );
+
+                    console.log(
+
+                        "Imported",
+
+                        ObservationDatabase
+                            .all()
+                            .length,
+
+                        "observations."
+
+                    );
+
+                };
+
+            reader.readAsText(file);
+
+        }
+    );
