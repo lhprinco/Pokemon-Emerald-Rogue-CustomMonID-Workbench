@@ -25,6 +25,8 @@ const ObservationDatabase = {
 
         this.observations.push(observation);
 
+        this.render();
+        
     },
 
     all() {
@@ -37,6 +39,8 @@ const ObservationDatabase = {
 
         this.observations = [];
 
+        this.render();
+        
     },
 
     export() {
@@ -98,6 +102,8 @@ const ObservationDatabase = {
 
         });
 
+        this.render();
+        
     }
 
     render(){
